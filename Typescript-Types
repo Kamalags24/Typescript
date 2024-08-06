@@ -1,0 +1,173 @@
+En TypeScript, il existe une variété de types que vous pouvez utiliser pour annoter vos variables, fonctions, et objets. Voici une vue d'ensemble des principaux types disponibles :
+
+### Types de Base
+
+1. **`boolean`** : Représente une valeur vraie ou fausse.
+   ```typescript
+   let isDone: boolean = false;
+   ```
+
+2. **`number`** : Représente des nombres, qu'ils soient entiers ou à virgule flottante.
+   ```typescript
+   let decimal: number = 6;
+   let hex: number = 0xf00d;
+   let binary: number = 0b1010;
+   let octal: number = 0o744;
+   ```
+
+3. **`string`** : Représente des chaînes de caractères.
+   ```typescript
+   let color: string = "blue";
+   ```
+
+4. **`Array`** : Représente une collection de valeurs du même type. Peut être écrit de deux façons :
+   ```typescript
+   let list: number[] = [1, 2, 3];
+   let list: Array<number> = [1, 2, 3];
+   ```
+
+5. **`Tuple`** : Permet de représenter un tableau avec un nombre fixe d'éléments dont les types sont connus mais peuvent être différents.
+   ```typescript
+   let x: [string, number];
+   x = ["hello", 10];
+   ```
+
+6. **`enum`** : Permet de définir un ensemble de valeurs nommées.
+   ```typescript
+   enum Color {Red, Green, Blue}
+   let c: Color = Color.Green;
+   ```
+
+7. **`any`** : Représente n'importe quel type, utile lorsque le type d'une variable n'est pas connu au moment de la déclaration.
+   ```typescript
+   let notSure: any = 4;
+   notSure = "maybe a string instead";
+   notSure = false;
+   ```
+
+8. **`void`** : Utilisé pour les fonctions qui ne retournent rien.
+   ```typescript
+   function warnUser(): void {
+       console.log("This is my warning message");
+   }
+   ```
+
+9. **`null` et `undefined`** : Représentent respectivement l'absence de valeur et une valeur non définie.
+   ```typescript
+   let u: undefined = undefined;
+   let n: null = null;
+   ```
+
+10. **`never`** : Représente le type des valeurs qui ne se produisent jamais, utilisé pour les fonctions qui lancent une exception ou qui ne retournent jamais.
+    ```typescript
+    function error(message: string): never {
+        throw new Error(message);
+    }
+    ```
+
+11. **`object`** : Représente un type non primitif, c'est-à-dire tout ce qui n'est pas `number`, `string`, `boolean`, `symbol`, `null`, ou `undefined`.
+    ```typescript
+    let obj: object = { name: "John", age: 30 };
+    ```
+
+### Types Avancés
+
+1. **`union`** : Permet de combiner plusieurs types en un seul.
+   ```typescript
+   let value: string | number;
+   value = "hello";
+   value = 42;
+   ```
+
+2. **`type alias`** : Permet de créer un alias pour un type.
+   ```typescript
+   type StringOrNumber = string | number;
+   let value: StringOrNumber;
+   value = "hello";
+   value = 42;
+   ```
+
+3. **`interface`** : Décrit la forme d'un objet.
+   ```typescript
+   interface Person {
+       name: string;
+       age: number;
+   }
+
+   let person: Person = { name: "John", age: 25 };
+   ```
+
+4. **`type assertion`** : Permet de dire au compilateur de traiter une variable comme un certain type.
+   ```typescript
+   let someValue: any = "this is a string";
+   let strLength: number = (someValue as string).length;
+   ```
+
+5. **`literal types`** : Permet d'utiliser des valeurs littérales comme types.
+   ```typescript
+   type Direction = "north" | "south" | "east" | "west";
+   let dir: Direction = "north";
+   ```
+
+6. **`intersection`** : Combine plusieurs types en un seul.
+   ```typescript
+   interface ErrorHandling {
+       success: boolean;
+       error?: { message: string };
+   }
+
+   interface ArtworksData {
+       artworks: { title: string }[];
+   }
+
+   type ArtworksResponse = ArtworksData & ErrorHandling;
+
+   let response: ArtworksResponse = {
+       success: true,
+       artworks: [{ title: "Mona Lisa" }]
+   };
+   ```
+
+7. **`Generics`** : Permet de créer des composants réutilisables qui peuvent travailler avec n'importe quel type.
+   ```typescript
+   function identity<T>(arg: T): T {
+       return arg;
+   }
+
+   let output = identity<string>("myString");
+   ```
+
+### Exemples
+
+Voici quelques exemples montrant l'utilisation de ces types :
+
+#### Exemple de `union` et `type alias`
+```typescript
+type ID = string | number;
+
+function printId(id: ID) {
+   console.log("Your ID is: " + id);
+}
+
+printId(101);
+printId("202");
+```
+
+#### Exemple de `interface` et `literal types`
+```typescript
+interface Car {
+   brand: string;
+   model: string;
+   year: number;
+   color?: "red" | "blue" | "green"; // Literal type
+}
+
+let myCar: Car = {
+   brand: "Toyota",
+   model: "Corolla",
+   year: 2020,
+   color: "blue"
+};
+```
+
+En combinant ces types et concepts, TypeScript permet de créer des applications robustes et bien typées, facilitant la maintenance et réduisant les erreurs potentielles.
