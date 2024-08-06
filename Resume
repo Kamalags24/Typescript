@@ -1,0 +1,189 @@
+### Cours de TypeScript
+
+**Introduction à TypeScript**
+
+TypeScript est un langage de programmation développé par Microsoft. Il s'agit d'un sur-ensemble de JavaScript qui ajoute des types statiques. Cela signifie que vous pouvez spécifier des types pour les variables, les paramètres de fonction et les retours de fonction, ce qui permet de détecter les erreurs au moment de la compilation, plutôt qu'au moment de l'exécution.
+
+#### Installation
+
+Pour commencer à utiliser TypeScript, vous devez l'installer via npm :
+```bash
+npm install -g typescript
+```
+
+Vous pouvez ensuite vérifier l'installation en utilisant :
+```bash
+tsc --version
+```
+
+#### Premier programme en TypeScript
+
+Créez un fichier `hello.ts` avec le contenu suivant :
+```typescript
+let message: string = "Hello, TypeScript!";
+console.log(message);
+```
+
+Pour compiler ce fichier en JavaScript, utilisez la commande :
+```bash
+tsc hello.ts
+```
+
+Cela génère un fichier `hello.js` que vous pouvez exécuter avec Node.js :
+```bash
+node hello.js
+```
+
+### Concepts de base
+
+#### Typage
+
+1. **Types de base** : TypeScript offre des types de base comme `string`, `number`, `boolean`, `array`, `enum`, etc.
+   ```typescript
+   let isDone: boolean = true;
+   let decimal: number = 6;
+   let color: string = "blue";
+   let list: number[] = [1, 2, 3];
+   ```
+
+2. **Tuple** : Permet de représenter un tableau avec un nombre fixe d'éléments dont les types sont connus mais peuvent être différents.
+   ```typescript
+   let x: [string, number];
+   x = ["hello", 10];
+   ```
+
+3. **Enum** : Permet de définir un ensemble de valeurs nommées.
+   ```typescript
+   enum Color {Red, Green, Blue}
+   let c: Color = Color.Green;
+   ```
+
+4. **Any** : Utilisé lorsqu'on ne connaît pas le type à l'avance.
+   ```typescript
+   let notSure: any = 4;
+   notSure = "maybe a string instead";
+   ```
+
+5. **Void** : Utilisé pour les fonctions qui ne retournent rien.
+   ```typescript
+   function warnUser(): void {
+       console.log("This is my warning message");
+   }
+   ```
+
+#### Fonctions
+
+1. **Fonctions avec typage des paramètres et des retours** :
+   ```typescript
+   function add(x: number, y: number): number {
+       return x + y;
+   }
+   ```
+
+2. **Paramètres optionnels et valeurs par défaut** :
+   ```typescript
+   function buildName(firstName: string, lastName?: string): string {
+       return firstName + " " + (lastName || "");
+   }
+
+   function buildNameWithDefault(firstName: string, lastName: string = "Smith"): string {
+       return firstName + " " + lastName;
+   }
+   ```
+
+3. **Fonctions avec un nombre variable d'arguments** :
+   ```typescript
+   function buildName(firstName: string, ...restOfName: string[]): string {
+       return firstName + " " + restOfName.join(" ");
+   }
+   ```
+
+#### Interfaces
+
+Les interfaces permettent de définir des contrats pour les objets.
+```typescript
+interface User {
+   name: string;
+   age?: number;
+}
+
+function greet(user: User) {
+   console.log("Hello, " + user.name);
+}
+
+let user = { name: "John", age: 25 };
+greet(user);
+```
+
+#### Classes
+
+TypeScript améliore la programmation orientée objet en JavaScript avec des classes, des interfaces et des héritages.
+```typescript
+class Animal {
+   private name: string;
+
+   constructor(name: string) {
+       this.name = name;
+   }
+
+   public move(distance: number): void {
+       console.log(`${this.name} moved ${distance}m.`);
+   }
+}
+
+class Dog extends Animal {
+   constructor(name: string) {
+       super(name);
+   }
+
+   public bark(): void {
+       console.log("Woof! Woof!");
+   }
+}
+
+let dog = new Dog("Rex");
+dog.bark();
+dog.move(10);
+```
+
+#### Modules
+
+TypeScript utilise des modules pour organiser et réutiliser le code.
+```typescript
+// math.ts
+export function add(a: number, b: number): number {
+   return a + b;
+}
+
+// main.ts
+import { add } from './math';
+console.log(add(2, 3));
+```
+
+Pour compiler un projet TypeScript avec des modules, utilisez le fichier de configuration `tsconfig.json`.
+```json
+{
+   "compilerOptions": {
+       "module": "commonjs",
+       "target": "es6",
+       "outDir": "./dist"
+   },
+   "include": ["./src/**/*"]
+}
+```
+
+Pour compiler le projet, exécutez :
+```bash
+tsc
+```
+
+#### Avantages de TypeScript
+
+1. **Typage statique** : Réduction des erreurs à l'exécution en les capturant au moment de la compilation.
+2. **Amélioration de l'éditeur** : Auto-complétion, navigation dans le code et refactoring plus efficaces.
+3. **Meilleure lisibilité et maintenabilité** : Le code est plus facile à comprendre et à maintenir.
+4. **Interopérabilité** : Fonctionne bien avec JavaScript et les bibliothèques JavaScript existantes.
+
+### Conclusion
+
+TypeScript est un outil puissant pour améliorer la qualité du code JavaScript, en particulier pour les projets de grande envergure. En ajoutant des types statiques, il permet de capturer de nombreuses erreurs au moment de la compilation, ce qui conduit à un code plus robuste et plus maintenable.
